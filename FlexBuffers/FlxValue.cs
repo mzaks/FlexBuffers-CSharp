@@ -578,7 +578,7 @@ namespace FlexBuffers
                 }
             }
             // keys are zero terminated
-            return key2.Buffer[indirectOffset + key.Length];
+            return key2.Buffer[indirectOffset + key.Length] == 0 ? 0 : -1;
         }
 
         public IEnumerator<KeyValuePair<string, FlxValue>> GetEnumerator()
