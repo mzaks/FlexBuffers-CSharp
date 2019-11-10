@@ -46,6 +46,7 @@ namespace FlexBuffers
         }
 
         public Type ValueType => _type;
+        public int BufferOffset => _offset;
 
         public bool IsNull => _type == Type.Null;
 
