@@ -1,6 +1,3 @@
-using System;
-using System.IO;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 
 namespace FlexBuffers
