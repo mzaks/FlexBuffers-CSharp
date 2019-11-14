@@ -74,18 +74,5 @@ namespace FlexBuffers
             flx.EndVector(outerVec, false, false);
             return flx.Finish();
         }
-
-        private static int SkipWhiteSpace(int offset, string s)
-        {
-            for (var i = offset; i < s.Length; i++)
-            {
-                if (char.IsWhiteSpace(s[i]) == false)
-                {
-                    return i;
-                }
-            }
-
-            return s.Length;
-        }
     }
 }
