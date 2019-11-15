@@ -186,6 +186,13 @@ namespace FlexBuffers
                 {
                     var indirectOffset = ComputeIndirectOffset(_buffer, _offset, _parentWidth);
                     var size = (int)ReadLong(_buffer, indirectOffset - _byteWidth, _byteWidth);
+                    var sizeWidth = (int)_byteWidth;
+                    while (_buffer[indirectOffset + size] != 0)
+                    {
+                        sizeWidth <<= 1;
+                        size = (int)ReadLong(_buffer, indirectOffset - sizeWidth, (byte)sizeWidth);
+                    }
+                    
                     return Encoding.UTF8.GetString(_buffer, indirectOffset, size);
                 }
 

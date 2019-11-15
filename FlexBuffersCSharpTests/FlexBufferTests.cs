@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using FlexBuffers;
 using NUnit.Framework;
 
@@ -457,6 +458,92 @@ namespace FlexBuffersCSharpTests
             Check(
                 expected, 
                 FlexBuffer.SingleValue(buffer));
+        }
+
+        [Test]
+        public void LongStringArray()
+        {
+            var s1 = new StringBuilder();
+            for (int i = 0; i < 260; i++)
+            {
+                s1.Append("a");
+            }
+            var s2 = new StringBuilder();
+            for (int i = 0; i < 260000; i++)
+            {
+                s2.Append("b");
+            }
+
+            var list = new List<string>(2) {s1.ToString(), s2.ToString()};
+
+            var bytes = FlexBuffer.From(list);
+
+            var flx = FlxValue.FromBytes(bytes);
+            
+            Assert.AreEqual(2, flx.AsVector.Length);
+            Assert.AreEqual(s1.ToString(), flx[0].AsString);
+            Assert.AreEqual(s2.ToString(), flx[1].AsString);
+            
+        }
+        
+        [Test]
+        public void BiggerStringArray()
+        {
+            var list = new List<string>();
+            for (var i = 0; i < 2600; i++)
+            {
+                list.Add("abc");
+            }
+            
+            var bytes = FlexBuffer.From(list);
+
+            var flx = FlxValue.FromBytes(bytes);
+            
+            Assert.AreEqual(2600, flx.AsVector.Length);
+            for (var i = 0; i < 2600; i++)
+            {
+                Assert.AreEqual("abc", flx[i].AsString);
+            }
+        }
+        
+        [Test]
+        public void BiggerBoolArray()
+        {
+            var list = new List<bool>();
+            for (var i = 0; i < 2600; i++)
+            {
+                list.Add(i%3 == 0);
+            }
+            
+            var bytes = FlexBuffer.From(list);
+
+            var flx = FlxValue.FromBytes(bytes);
+            
+            Assert.AreEqual(2600, flx.AsVector.Length);
+            for (var i = 0; i < 2600; i++)
+            {
+                Assert.AreEqual(list[i], flx[i].AsBool);
+            }
+        }
+        
+        [Test]
+        public void BiggerDictionary()
+        {
+            var dict = new Dictionary<string, int>();
+            for (var i = 0; i < 2600; i++)
+            {
+                dict[i.ToString()] = i;
+            }
+            
+            var bytes = FlexBuffer.From(dict);
+
+            var flx = FlxValue.FromBytes(bytes);
+            
+            Assert.AreEqual(2600, flx.AsMap.Length);
+            for (var i = 0; i < 2600; i++)
+            {
+                Assert.AreEqual(i, flx[i.ToString()].AsLong);
+            }
         }
 
         private void Check(byte[] expected, byte[] actual)
