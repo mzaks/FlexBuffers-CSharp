@@ -49,6 +49,7 @@
     <Compile Include="JsonToFlexBufferConverterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CsvToFlexBuffersConverterTests.cs" />
+    <Compile Include="XmlToFlexBufferConverterTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FlexBuffers\FlexBuffers.csproj">

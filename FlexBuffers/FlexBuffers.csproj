@@ -49,6 +49,7 @@
     <Compile Include="StackValue.cs" />
     <Compile Include="TextScanner.cs" />
     <Compile Include="Types.cs" />
+    <Compile Include="XmlToFlexBufferConverter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
