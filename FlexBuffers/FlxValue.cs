@@ -519,7 +519,28 @@ namespace FlexBuffers
         
         private FlxVector Values => new FlxVector(_buffer, _offset, _byteWidth, Type.Vector, _length);
 
-        public FlxValue this[string key] => Values[KeyIndex(key)];
+        public FlxValue this[string key]
+        {
+            get
+            {
+                var index = KeyIndex(key);
+                if (index < 0)
+                {
+                    throw new Exception($"No key '{key}' could be found");
+                }
+                return Values[index];
+            }
+        }
+
+        public FlxValue ValueByIndex(int keyIndex)
+        {
+            if (keyIndex < 0 || keyIndex >= Length)
+            {
+                throw new Exception($"Bad Key index {keyIndex}");
+            }
+
+            return Values[keyIndex];
+        }
 
         public string ToJson
         {
@@ -542,7 +563,7 @@ namespace FlexBuffers
             }
         }
 
-        private int KeyIndex(string key)
+        public int KeyIndex(string key)
         {
             var keyBytes = Encoding.UTF8.GetBytes(key);
             var low = 0;
@@ -563,9 +584,10 @@ namespace FlexBuffers
                     low = mid + 1;
                 }
             }
-            throw new Exception($"No key '{key}' could be found");
-        }
 
+            return -1;
+        }
+        
         private int Comp(int i, string key)
         {
             // TODO: keep it so we can profile it against byte comparison

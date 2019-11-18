@@ -388,6 +388,27 @@ namespace FlexBuffersCSharpTests
             Assert.AreEqual(3, i);
         }
 
+        [Test]
+        public void GetValueIndex()
+        {
+            var dict = new Dictionary<string, int>()
+            {
+                {"a", 1},
+                {"b", 2},
+                {"c", 3},
+            };
+            var bytes = FlexBuffer.From(dict);
+            var flx = FlxValue.FromBytes(bytes);
+            var map = flx.AsMap;
+            Assert.AreEqual(3, map.Length);
+            Assert.AreEqual(0, map.KeyIndex("a"));
+            Assert.AreEqual(1, map.KeyIndex("b"));
+            Assert.AreEqual(2, map.KeyIndex("c"));
+            Assert.AreEqual(-1, map.KeyIndex("d"));
+            Assert.AreEqual(1, map.ValueByIndex(0).AsLong);
+            
+        }
+
         private void CheckLong(long value)
         {
             var bytes = FlexBuffer.SingleValue(value);
