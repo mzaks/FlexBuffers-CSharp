@@ -409,6 +409,64 @@ namespace FlexBuffersCSharpTests
             
         }
 
+        [Test]
+        public void TestPrettyJson2DVector()
+        {
+            var list = new List<List<int>>
+            {
+                new List<int>(){1, 2, 3},
+                new List<int>(){5, 6},
+                new List<int>(){7, 8, 9, 10},
+            };
+
+            var expected = @"[
+  [
+    1,
+    2,
+    3
+  ],
+  [
+    5,
+    6
+  ],
+  [
+    7,
+    8,
+    9,
+    10
+  ]
+]".Replace("\r", "");
+            var bytes = FlexBuffer.From(list);
+            var flx = FlxValue.FromBytes(bytes);
+            Assert.AreEqual(expected, flx.ToPrettyJson());
+        } 
+        
+        [Test]
+        public void TestPrettyJsonMap()
+        {
+            var dict = new Dictionary<string, object>()
+            {
+                {"a", 1},
+                {"b", 2},
+                {"c", 3},
+                {"d", new []{1, 2, 3}}
+            };
+
+            var expected = @"{
+  ""a"" : 1,
+  ""b"" : 2,
+  ""c"" : 3,
+  ""d"" : [
+    1,
+    2,
+    3
+  ]
+}".Replace("\r", "");
+            var bytes = FlexBuffer.From(dict);
+            var flx = FlxValue.FromBytes(bytes);
+            Assert.AreEqual(expected, flx.ToPrettyJson());
+        } 
+
         private void CheckLong(long value)
         {
             var bytes = FlexBuffer.SingleValue(value);
