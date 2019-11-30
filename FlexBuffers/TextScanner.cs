@@ -7,6 +7,10 @@ namespace FlexBuffers
     {
         public long column;
         public long line;
+        public override string ToString()
+        {
+            return $"line: {line} column: {column}";
+        }
     }
 	
     internal sealed class TextScanner
