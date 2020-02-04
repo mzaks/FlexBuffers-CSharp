@@ -187,7 +187,7 @@ namespace FlexBuffers
 			}
 			else
 			{
-				flx.Add(int.Parse(builder.ToString()));
+				flx.Add(long.Parse(builder.ToString()));
 			}
 		}
 
