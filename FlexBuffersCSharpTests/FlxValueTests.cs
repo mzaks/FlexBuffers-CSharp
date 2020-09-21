@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using FlexBuffers;
 using NUnit.Framework;
 
@@ -465,7 +466,15 @@ namespace FlexBuffersCSharpTests
             var bytes = FlexBuffer.From(dict);
             var flx = FlxValue.FromBytes(bytes);
             Assert.AreEqual(expected, flx.ToPrettyJson());
-        } 
+        }
+
+        [Test]
+        public void TestOffsetAndLengthAreOfTypeULong()
+        {
+            var json = @"{""channels_in"":64,""dilation_height_factor"":1,""dilation_width_factor"":1,""fused_activation_function"":1,""pad_values"":1,""padding"":0,""stride_height"":1,""stride_width"":1}";
+            var flx = FlxValue.FromBytes(new byte[] {99, 104, 97, 110, 110, 101, 108, 115, 95, 105, 110, 0, 100, 105, 108, 97, 116, 105, 111, 110, 95, 104, 101, 105, 103, 104, 116, 95, 102, 97, 99, 116, 111, 114, 0, 100, 105, 108, 97, 116, 105, 111, 110, 95, 119, 105, 100, 116, 104, 95, 102, 97, 99, 116, 111, 114, 0, 102, 117, 115, 101, 100, 95, 97, 99, 116, 105, 118, 97, 116, 105, 111, 110, 95, 102, 117, 110, 99, 116, 105, 111, 110, 0, 112, 97, 100, 95, 118, 97, 108, 117, 101, 115, 0, 112, 97, 100, 100, 105, 110, 103, 0, 115, 116, 114, 105, 100, 101, 95, 104, 101, 105, 103, 104, 116, 0, 115, 116, 114, 105, 100, 101, 95, 119, 105, 100, 116, 104, 0, 8, 130, 119, 97, 76, 51, 41, 34, 21, 8, 1, 8, 64, 1, 1, 1, 1, 0, 1, 1, 4, 4, 4, 4, 4, 4, 4, 4, 16, 36, 1});
+            Assert.AreEqual(json, flx.ToJson);
+        }
 
         private void CheckLong(long value)
         {
