@@ -199,20 +199,21 @@ namespace FlexBuffersCSharpTests
             Check(
                 new byte[]
                 {
-                    97, 100, 100, 114, 101, 115, 115, 0, 
-                    99, 105, 116, 121, 0, 3, 66, 108, 97, 0, 
-                    99, 111, 117, 110, 116, 114, 121, 67, 111, 100, 101, 0, 
-                    2, 88, 88, 0, 
-                    122, 105, 112, 0, 
-                    5, 49, 50, 51, 52, 53, 0, 
-                    3, 38, 29, 14, 3, 1, 3, 38, 22, 15, 20, 20, 20, 
                     97, 103, 101, 0, 
                     102, 108, 97, 103, 115, 0, 
                     4, 1, 0, 1, 1, 
+                    119, 101, 105, 103, 104, 116, 0, 
                     110, 97, 109, 101, 0, 
                     5, 77, 97, 120, 105, 109, 0, 
-                    119, 101, 105, 103, 104, 116, 0, 
-                    5, 93, 36, 33, 23, 12, 0, 0, 7, 0, 0, 0, 1, 0, 0, 0, 5, 0, 0, 0, 60, 0, 0, 0, 35, 0, 0, 0, 51, 0, 0, 0, 45, 0, 0, 0, 0, 0, 145, 66, 36, 4, 144, 20, 14, 25, 38, 1
+                    97, 100, 100, 114, 101, 115, 115, 0, 
+                    99, 105, 116, 121, 0, 
+                    3, 66, 108, 97, 0, 
+                    122, 105, 112, 0, 
+                    5, 49, 50, 51, 52, 53, 0, 
+                    99, 111, 117, 110, 116, 114, 121, 67, 111, 100, 101, 0, 
+                    2, 88, 88, 0, 
+                    3, 38, 18, 30, 3, 1, 3, 38, 11, 31, 20, 20, 20, 5, 59, 94, 91, 74, 82, 0, 0, 
+                    7, 0, 0, 0, 1, 0, 0, 0, 5, 0, 0, 0, 26, 0, 0, 0, 35, 0, 0, 0, 109, 0, 0, 0, 96, 0, 0, 0, 0, 0, 145, 66, 36, 4, 144, 20, 14, 25, 38, 1
                 }, 
                 FlexBuffer.From(value));
         }
@@ -545,6 +546,23 @@ namespace FlexBuffersCSharpTests
             {
                 Assert.AreEqual(i, flx[i.ToString()].AsLong);
             }
+        }
+
+        [Test]
+        public void DictionaryWithCapitalAndNonCapitalKeyValues()
+        {
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            dict.Add("aieorjhioa", "aerhj");
+            dict.Add("e98rh8d9i3qaktgr", "eaihjor");
+            dict.Add("T", "toeks");
+
+            byte[] testBytes = FlexBuffer.From(dict);
+            FlxMap map = FlxValue.FromBytes(testBytes).AsMap;
+            
+            
+            Assert.AreEqual("aerhj", map["aieorjhioa"].AsString);
+            Assert.AreEqual("eaihjor", map["e98rh8d9i3qaktgr"].AsString);
+            Assert.AreEqual("toeks", map["T"].AsString);
         }
 
         private void Check(byte[] expected, byte[] actual)
